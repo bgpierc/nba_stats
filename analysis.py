@@ -59,7 +59,7 @@ def NBAfgpct():
 		pred.append(predictFromLine(slope,intercept,i)) #generate predicted values
 	residuals = []
 	for i in range(len(pred)):
-		residuals.append(pred[i]-ytest[i]) #find residuals
+		residuals.append(pred[i]-ytrain[i]) #find residuals
 	plt.scatter(pred,residuals, c = 'black', marker = '.') #scatter plot
 	slope, intercept, r_value, p_value, std_err = stats.linregress(pred,residuals)
 	print(r_value**2)
@@ -102,12 +102,11 @@ def NBAft():
 
 def NBA3ptpct():
 	df = pd.read_csv('players.csv')
-	df = shuffle(df,random_state =1377890)
 	Xtrain = []
 	ytrain = []
 	Xtest = []
 	ytest = []
-	for i in range(0,int(len(df)/2)):
+	for i in range(0,int(len(df))):
 		if df['NBA__3ptapg'][i] > 1 and df['NCAA_ftapg'][i] > 1:
 			if df['NCAA_ft'][i] >0 and df['NBA__3ptpct'][i] > 0:
 				if df['NCAA_ft'][i] <1 and df['NBA__3ptpct'][i] < 1:
@@ -137,11 +136,11 @@ def NBA3ptpct():
 	plt.figure(2)
 
 	pred = []
-	for i in Xtest:
+	for i in Xtrain:
 		pred.append(predictFromLine(slope,intercept,i)) #generate predicted values
 	residuals = []
 	for i in range(len(pred)):
-		residuals.append(pred[i]-ytest[i]) #find residuals
+		residuals.append(pred[i]-ytrain[i]) #find residuals
 	plt.scatter(pred,residuals, c = 'black', marker = '.') #scatter plot
 	slope, intercept, r_value, p_value, std_err = stats.linregress(pred,residuals)
 	print(r_value**2)
@@ -172,6 +171,10 @@ def efgpct():
 
 	plt.figure(1)
 	plt.scatter(Xf,yf, color = 'black', marker = '.')
+	slope, intercept, r_value, p_value, std_err = stats.linregress(Xf,yf)
+	x = np.linspace(0.3,0.9, 1000)
+	plt.plot(x,x*slope + intercept)
+	plt.text(0.3,0.2, 'rsquared = ' + str('%.1g' % r_value**2))
 	plt.xlabel('NCAA FT %')
 	plt.ylabel('NBA eFG%')
 	plt.show()
@@ -179,5 +182,4 @@ def efgpct():
 
 
 
-
-NBAfgpct()
+efgpct()
