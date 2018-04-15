@@ -1,0 +1,25 @@
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.951
+Model:                            OLS   Adj. R-squared:                  0.951
+Method:                 Least Squares   F-statistic:                 2.515e+04
+Date:                Thu, 12 Apr 2018   Prob (F-statistic):               0.00
+Time:                        21:44:45   Log-Likelihood:                 1187.6
+No. Observations:                1292   AIC:                            -2373.
+Df Residuals:                    1291   BIC:                            -2368.
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+x1             0.5952      0.004    158.579      0.000       0.588       0.603
+==============================================================================
+Omnibus:                       34.346   Durbin-Watson:                   2.063
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               75.930
+Skew:                           0.070   Prob(JB):                     3.25e-17
+Kurtosis:                       4.179   Cond. No.                         1.00
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+for players that average >0 shots per game in NCAA and NBA
