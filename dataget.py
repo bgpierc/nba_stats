@@ -77,7 +77,7 @@ def player_info(url):
 		for row in table_foot.findAll('tr'):
 			cells  = row.findAll('td')
 			playerData = str(cells) #the indexes are not uniform across the database
-			#games = re.search(r'data-stat="g">(.*?)</td>', playerData).group(1) # don't need
+			games = re.search(r'data-stat="g">(.*?)</td>', playerData).group(1) # don't need
 			fgpct = re.search(r'data-stat="fg_pct">(.*?)</td>', playerData).group(1)
 			games = re.search(r'data-stat="g">(.*?)</td>', playerData).group(1)
 			ppg = re.search(r'data-stat="pts_per_g">(.*?)</td>', playerData).group(1)
