@@ -18,6 +18,7 @@ import scipy.stats as st
 import sklearn.linear_model as lm
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
+import statsmodels.formula.api as smf
 
 def predictFromLine(slope, intercept,x):
 	return slope*x + intercept
@@ -49,11 +50,6 @@ def NBAft():
 	plt.plot()
 	plt.show()
 
-def calcEfgpct(NCAA_FGM,NCAA_3PTM,FGA):
-	if(FGA != 0):
-		return (NCAA_FGM +(0.5*NCAA_3PTM))/FGA
-	else:
-		return None
 def efgpct():
 	df = pd.read_csv('players.csv')
 	df = df[['NBA_efgpct','NCAA_ft']]
@@ -142,10 +138,47 @@ def threept():
 	plt.ylabel('NBA 3PT%')
 	plt.show()
 
-def tspct():
-	df = pd.read_csv('players.csv')
-	df = pd
 
+def multivar():
+	df = pd.read_csv('players.csv')
+	df = df[['NCAA_ft','NCAA_fgpct','NBA_efgpct']].dropna()
+	lm = smf.ols(formula = 'NBA_efgpct ~ NCAA_ft + NCAA_fgpct ',data=df).fit()
+	print(lm.summary(),lm.pvalues)
+	
+
+def multivar2():
+	df = pd.read_csv('players.csv')
+	df = df[['NCAA_ft','NCAA_fgpct','NBA_efgpct','position']].dropna()
+	lm = smf.ols(formula = 'NBA_efgpct ~ NCAA_ft +position',data=df).fit()
+	print(lm.summary(),lm.pvalues)
+
+def straightUp():
+	df = pd.read_csv('players.csv')
+	df = df[['NCAA_ft','NCAA_fgpct','NBA_efgpct','NBA_ft%']].dropna()
+	df = df.rename(columns = {'NBA_ft%': 'NBA_ft'})
+	lm = smf.ols(formula = r'NBA_ft ~ NCAA_ft',data=df).fit()
+	print(lm.summary(),lm.pvalues)
+	intercept  = lm.params[0]
+	slope= lm.params[1]
+	#slope, intercept, r_value, p_value, std_err = stats.linregress(df['NCAA_ft'],df['NBA_ft'])
+	#print(p_value,r_value**2)
+	x = np.linspace(0,1, 1000)
+	plt.plot(x,x*slope + intercept)
+	plt.scatter(df['NBA_ft'],df['NCAA_ft'],color = 'black', marker = '.')
+	plt.show()
+
+
+def straightUpPos():
+	df = pd.read_csv('players.csv')
+	df = df[['NCAA_ft','NCAA_fgpct','NBA_efgpct','NBA_ft%', 'position']].dropna()
+	df = df.rename(columns = {'NBA_ft%': 'NBA_ft'})
+	lm = smf.ols(formula = r'NBA_ft ~ NCAA_ft + position',data=df).fit()
+	print(lm.summary(),lm.pvalues)
+
+
+	
 #threept()
 #fg()
-efgpct()
+#efgpct()
+#multivar2()
+straightUpPos()
